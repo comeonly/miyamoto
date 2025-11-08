@@ -12,9 +12,11 @@ All notable changes to this project will be documented in this file.
 - Fixed typo in `actionWhoIsOff` function (line 936): `telate` → `template`
 - Fixed typo in `confirmSignIn` function (line 960): `isEmp` → `isEmpty`
 - Fixed missing `&&` operator in `confirmSignOut` function (line 972)
+- Fixed typo in Underscore.js library (line 996): `trray.prototype` → `r=Array.prototype`
 - Fixed issue where sign-in/sign-out messages would repeat multiple times when updating the same time
-  - Added time comparison check in `actionSignIn` to prevent duplicate update messages
-  - Added time comparison check in `actionSignOut` to prevent duplicate update messages
+  - Changed time comparison from millisecond precision to minute precision in `actionSignIn`
+  - Changed time comparison from millisecond precision to minute precision in `actionSignOut`
+  - This prevents duplicate messages when the same time is entered multiple times
 
 ### Changed
 - Updated for compatibility with current Slack API specifications
