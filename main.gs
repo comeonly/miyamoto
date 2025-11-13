@@ -887,6 +887,11 @@ loadTimesheets = function (exports) {
     if(this.date) {
       var dateObj = new Date(this.date[0], this.date[1]-1, this.date[2]);
       var data = this.storage.get(username, dateObj);
+      // 既に休暇登録されているかチェック
+      if(data.signIn === '-' && data.signOut === '-') {
+        // 既に登録済みの場合は何もしない（重複メッセージを防ぐ）
+        return;
+      }
       if(!data.signOut || data.signOut === '-') {
         this.storage.set(username, dateObj, {signIn: '-', signOut: '-', note: message});
         this.responder.template(channel, "休暇", username, DateUtils.format("Y/m/d", dateObj));
@@ -899,6 +904,11 @@ loadTimesheets = function (exports) {
     if(this.date) {
       var dateObj = new Date(this.date[0], this.date[1]-1, this.date[2]);
       var data = this.storage.get(username, dateObj);
+      // 既に取消済み（休暇登録されていない）かチェック
+      if(!data.signIn && !data.signOut) {
+        // 既に取消済みの場合は何もしない（重複メッセージを防ぐ）
+        return;
+      }
       if(!data.signOut || data.signOut === '-') {
         this.storage.set(username, dateObj, {signIn: null, signOut: null, note: message});
         this.responder.template(channel, "休暇取消", username, DateUtils.format("Y/m/d", dateObj));
